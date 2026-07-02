@@ -5,27 +5,41 @@ import { Book } from "@/models/Book";
 import { BookRegistration } from "@/models/BookRegistration";
 
 type BookApiResponse = {
-  bookUuid?: string;
-  bookId?: string;
-  id?: string;
-  title?: string;
-  name?: string;
-  author?: string;
-  authorName?: string;
-  category?: string;
-  categoryName?: string;
-  classification?: string;
+  bookId?: string | null;
+  title?: string | null;
+  author?: string | null;
+  category?: string | BookCategoryApiResponse | null;
   stock?: number;
-  stockCount?: number;
-  count?: number;
+};
+
+type BookCategoryApiResponse = {
+  categoryId?: string | null;
+  name?: string | null;
+};
+
+type RegisterBookApiRequest = {
+  title: string;
+  author: string;
+  categoryId: string;
+  stock: number;
+};
+
+const getCategoryName = (
+  category?: string | BookCategoryApiResponse | null,
+) => {
+  if (typeof category === "string") {
+    return category;
+  }
+
+  return category?.name;
 };
 
 const toBook = (value: BookApiResponse, index: number): Book => ({
-  bookUuid: value.bookUuid ?? value.bookId ?? value.id ?? `book-${index + 1}`,
-  title: value.title ?? value.name ?? "",
-  author: value.author ?? value.authorName ?? "",
-  category: value.category ?? value.categoryName ?? value.classification ?? "",
-  stock: value.stock ?? value.stockCount ?? value.count ?? 0,
+  bookUuid: value.bookId ?? `book-${index + 1}`,
+  title: value.title ?? "",
+  author: value.author ?? "",
+  category: getCategoryName(value.category) ?? "",
+  stock: value.stock ?? 0,
 });
 
 /**
@@ -34,10 +48,10 @@ const toBook = (value: BookApiResponse, index: number): Book => ({
 @injectable()
 export class BookRepository implements IBookRepository {
   public async searchKeyword(keyword: string): Promise<Book[]> {
-    const params = new URLSearchParams({ keyword });
+    const params = new URLSearchParams({ Keyword: keyword });
 
     // next.config.ts の rewrites 経由でバックエンドAPIへ接続する
-    const response = await fetch(`/proxy-api/books?${params.toString()}`, {
+    const response = await fetch(`/library/api/books?${params.toString()}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -58,12 +72,19 @@ export class BookRepository implements IBookRepository {
   }
 
   public async register(book: BookRegistration): Promise<Book> {
-    const response = await fetch("/proxy-api/books", {
+    const requestBody: RegisterBookApiRequest = {
+      title: book.title,
+      author: book.author,
+      categoryId: book.categoryId,
+      stock: book.stock,
+    };
+
+    const response = await fetch("/library/api/books", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(book),
+      body: JSON.stringify(requestBody),
     });
 
     if (!response.ok) {

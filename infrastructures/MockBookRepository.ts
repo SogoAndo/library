@@ -50,9 +50,8 @@ export class MockBookRepository implements IBookRepository {
   public async searchKeyword(keyword: string): Promise<Book[]> {
     const trimmedKeyword = keyword.trim();
 
-    // 未入力検索では全件を返す
     if (!trimmedKeyword) {
-      return this.mockBooks;
+      return [];
     }
 
     return this.mockBooks.filter((book) =>

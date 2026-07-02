@@ -31,7 +31,11 @@ export function BookSearch() {
   // 入力値と検索状態は画面側で管理する
   const [keyword, setKeyword] = useState("");
   const { results, status, error, search } = useSearchBooks();
-  const canSearch = keyword.length <= maxKeywordLength && status !== "loading";
+  const trimmedKeywordLength = keyword.trim().length;
+  const canSearch =
+    trimmedKeywordLength > 0 &&
+    trimmedKeywordLength <= maxKeywordLength &&
+    status !== "loading";
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -40,13 +44,10 @@ export function BookSearch() {
     search(trimmedKeyword);
 
     // 検索後のURLにもキーワードを反映する
-    if (trimmedKeyword.length <= maxKeywordLength) {
-      const href =
-        trimmedKeyword.length > 0
-          ? `/books?keyword=${encodeURIComponent(trimmedKeyword)}`
-          : "/books";
-
-      router.replace(href, { scroll: false });
+    if (trimmedKeyword.length > 0 && trimmedKeyword.length <= maxKeywordLength) {
+      router.replace(`/books?keyword=${encodeURIComponent(trimmedKeyword)}`, {
+        scroll: false,
+      });
     }
   };
 
@@ -55,7 +56,7 @@ export function BookSearch() {
       <div className="space-y-2 text-center">
         <h2 className="text-3xl font-bold tracking-tight">図書検索</h2>
         <p className="text-slate-500">
-          書名キーワードで蔵書を検索できます。未入力で検索すると全件を表示します。
+          書名キーワードを1文字以上入力して蔵書を検索できます。
         </p>
       </div>
 
@@ -86,7 +87,8 @@ export function BookSearch() {
             </div>
 
             <p className="text-sm text-slate-500">
-              50文字以内で入力してください({keyword.length} / {maxKeywordLength})
+              1〜50文字で入力してください({trimmedKeywordLength} /{" "}
+              {maxKeywordLength})
             </p>
           </form>
         </CardContent>

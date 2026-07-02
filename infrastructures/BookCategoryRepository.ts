@@ -4,20 +4,16 @@ import { IBookCategoryRepository } from "@/interfaces/IBookCategoryRepository";
 import { BookCategory } from "@/models/BookCategory";
 
 type BookCategoryApiResponse = {
-  categoryUuid?: string;
-  categoryId?: string;
-  id?: string;
-  name?: string;
-  categoryName?: string;
+  categoryId?: string | null;
+  name?: string | null;
 };
 
 const toBookCategory = (
   value: BookCategoryApiResponse,
   index: number,
 ): BookCategory => ({
-  categoryUuid:
-    value.categoryUuid ?? value.categoryId ?? value.id ?? `category-${index + 1}`,
-  name: value.name ?? value.categoryName ?? "",
+  categoryUuid: value.categoryId ?? `category-${index + 1}`,
+  name: value.name ?? "",
 });
 
 /**
@@ -26,7 +22,7 @@ const toBookCategory = (
 @injectable()
 export class BookCategoryRepository implements IBookCategoryRepository {
   public async findAll(): Promise<BookCategory[]> {
-    const response = await fetch("/proxy-api/categories", {
+    const response = await fetch("/library/api/categories", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

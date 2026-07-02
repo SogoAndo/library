@@ -22,7 +22,14 @@ export function useSearchBooks() {
   const search = async (keyword: string) => {
     const trimmedKeyword = keyword.trim();
 
-    // 画面側でも制御するが、hook側でも入力仕様を守る
+    // 画面側でも制御するが、hook側でもSwaggerの入力仕様を守る
+    if (!trimmedKeyword) {
+      setResults([]);
+      setStatus("error");
+      setError("書名キーワードを入力してください。");
+      return;
+    }
+
     if (trimmedKeyword.length > 50) {
       setResults([]);
       setStatus("error");
@@ -34,7 +41,6 @@ export function useSearchBooks() {
     setError("");
 
     try {
-      // 空文字の場合はRepository側で全件取得になる
       const nextResults = await searchService.execute(trimmedKeyword);
       setResults(nextResults);
       setStatus(nextResults.length > 0 ? "success" : "empty");
