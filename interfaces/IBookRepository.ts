@@ -1,4 +1,5 @@
 import { Book } from "@/models/Book";
+import { BookRegistration } from "@/models/BookRegistration";
 
 /**
  * 図書リポジトリインターフェース
@@ -10,4 +11,11 @@ export interface IBookRepository {
    * @returns 検索にヒットした図書のリスト
    */
   searchKeyword(keyword: string): Promise<Book[]>;
+
+  /**
+   * 図書を登録する
+   * @param book 登録する図書
+   * @returns 登録された図書
+   */
+  register(book: BookRegistration): Promise<Book>;
 }

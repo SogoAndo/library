@@ -5,6 +5,8 @@
 export const TYPES = {
     // 図書検索: インフラストラクチャ層
     IBookRepository: Symbol.for("IBookRepository"),
+    IBookCategoryRepository: Symbol.for("IBookCategoryRepository"),
     // 図書検索: サービス(ユースケース)層
     ISearchBookService: Symbol.for("ISearchBookService"),
+    IRegisterBookService: Symbol.for("IRegisterBookService"),
 };

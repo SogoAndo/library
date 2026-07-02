@@ -2,6 +2,7 @@ import { injectable } from "inversify";
 import { getResponseErrorMessage } from "@/lib/apiError";
 import { IBookRepository } from "@/interfaces/IBookRepository";
 import { Book } from "@/models/Book";
+import { BookRegistration } from "@/models/BookRegistration";
 
 type BookApiResponse = {
   bookUuid?: string;
@@ -54,5 +55,38 @@ export class BookRepository implements IBookRepository {
 
     const books: BookApiResponse[] = await response.json();
     return books.map(toBook);
+  }
+
+  public async register(book: BookRegistration): Promise<Book> {
+    const response = await fetch("/proxy-api/books", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(book),
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        await getResponseErrorMessage(
+          response,
+          `図書登録に失敗しました (Status: ${response.status})`,
+        ),
+      );
+    }
+
+    const text = await response.text();
+
+    if (!text) {
+      return {
+        bookUuid: "",
+        title: book.title,
+        author: book.author,
+        category: book.categoryName,
+        stock: book.stock,
+      };
+    }
+
+    return toBook(JSON.parse(text), 0);
   }
 }

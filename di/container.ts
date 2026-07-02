@@ -1,10 +1,14 @@
 import "reflect-metadata";
 import { IBookRepository } from "@/interfaces/IBookRepository";
+import { IBookCategoryRepository } from "@/interfaces/IBookCategoryRepository";
+import { IRegisterBookService } from "@/interfaces/IRegisterBookService";
 import { ISearchBookService } from "@/interfaces/ISearchBookService";
 import { Container } from "inversify";
 import { TYPES } from "./types";
 import { SearchBookService } from "@/services/SearchBookService";
 import { BookRepository } from "@/infrastructures/BookRepository";
+import { BookCategoryRepository } from "@/infrastructures/BookCategoryRepository";
+import { RegisterBookService } from "@/services/RegisterBookService";
 
 /**
  * 演習 6-2 データアクセスとサービスを実装する
@@ -21,7 +25,13 @@ const container = new Container();
  * 演習 8-7 バックエンドにアクセスするリポジトリを実装して切り替える
  */
 container.bind<IBookRepository>(TYPES.IBookRepository).to(BookRepository);
+container
+  .bind<IBookCategoryRepository>(TYPES.IBookCategoryRepository)
+  .to(BookCategoryRepository);
 // サービス(ユースケース)の登録
 container.bind<ISearchBookService>(TYPES.ISearchBookService).to(SearchBookService);
+container
+  .bind<IRegisterBookService>(TYPES.IRegisterBookService)
+  .to(RegisterBookService);
 
 export { container };

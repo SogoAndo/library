@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
+// ホーム画面に表示するメニューカードの定義
 const menuItems = [
   {
     title: "図書検索",
@@ -15,46 +16,46 @@ const menuItems = [
     buttonText: "検索画面へ",
     href: "/books",
     variant: "default",
+    className: "border-green-200",
   },
   {
     title: "図書登録",
     description: "新しい図書をシステムに登録します",
     buttonText: "登録画面へ進む",
-    href: "/api/books/register",
+    href: "/books/new",
     variant: "default",
+    className: "",
   },
   {
     title: "図書変更",
     description: "登録済みの図書情報を変更・更新します",
     buttonText: "変更画面へ進む",
-    href: "/api/books/update",
+    href: "/books",
     variant: "outline",
+    className: "",
   },
   {
     title: "図書削除",
     description: "登録済みの図書情報を削除します",
     buttonText: "削除画面へ進む",
-    href: "/api/books/delete",
-    variant: "outline",
+    href: "/books",
+    variant: "destructive",
+    className: "border-red-100",
   },
 ] as const;
 
 export default function HomePage() {
   return (
-    <div className="mx-auto max-w-4xl space-y-8 p-8">
-      <div className="space-y-2 text-center">
+    <div className="mx-auto max-w-5xl space-y-8 p-4 md:p-8">
+      <div className="space-y-2 rounded-lg border border-green-200 bg-white p-8 text-center shadow-sm">
         <h1 className="text-3xl font-bold tracking-tight">トップメニュー</h1>
-        <p className="text-gray-500">操作したいメニューを選択してください</p>
+        <p className="text-slate-500">操作したいメニューを選択してください</p>
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 md:grid-cols-2">
         {menuItems.map((item) => (
           <Card
-            className={
-              item.title === "図書削除"
-                ? "border-red-100 transition-shadow hover:shadow-lg"
-                : "transition-shadow hover:shadow-lg"
-            }
+            className={`transition-shadow hover:shadow-lg ${item.className}`}
             key={item.title}
           >
             <CardHeader>
@@ -66,7 +67,7 @@ export default function HomePage() {
                 asChild
                 className={
                   item.title === "図書削除"
-                    ? "w-full border-red-200 text-red-600 hover:bg-red-50"
+                    ? "w-full"
                     : "w-full"
                 }
                 variant={item.variant}

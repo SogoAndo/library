@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
         source: "/proxy-api/books/:path*",
         destination: "http://74.226.194.15/api/books/:path*",
       },
+      {
+        source: "/proxy-api/categories/:path*",
+        destination: "http://74.226.194.15/api/categories/:path*",
+      },
     ];
   },
 };

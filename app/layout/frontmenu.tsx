@@ -7,9 +7,12 @@ export default function FrontMenuLayout({
   children: React.ReactNode;
 }) {
   return (
+    // 参照元に合わせたヘッダー・メイン・フッターの共通枠
     <div className="flex min-h-screen flex-col bg-slate-50 font-sans">
       <Header />
-      <main className="flex-1 container mx-auto p-4 md:p-8">{children}</main>
+      <main className="container mx-auto w-full flex-1 p-4 md:p-8">
+        {children}
+      </main>
       <Footer />
     </div>
   );
