@@ -11,7 +11,7 @@ export default function Header() {
         <nav className="flex flex-wrap justify-end gap-1">
           <Link
             className="rounded-md bg-transparent px-3 py-2 text-sm font-medium text-green-900 hover:bg-green-200"
-            href="/api/books/search"
+            href="/books"
           >
             図書検索
           </Link>

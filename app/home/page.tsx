@@ -13,7 +13,7 @@ const menuItems = [
     title: "図書検索",
     description: "登録されている図書をキーワードで検索します",
     buttonText: "検索画面へ",
-    href: "/api/books/search",
+    href: "/books",
     variant: "default",
   },
   {
