@@ -3,12 +3,14 @@ import { IBookRepository } from "@/interfaces/IBookRepository";
 import { IBookCategoryRepository } from "@/interfaces/IBookCategoryRepository";
 import { IRegisterBookService } from "@/interfaces/IRegisterBookService";
 import { ISearchBookService } from "@/interfaces/ISearchBookService";
+import { IUpdateBookService } from "@/interfaces/IUpdateBookService";
 import { Container } from "inversify";
 import { TYPES } from "./types";
 import { SearchBookService } from "@/services/SearchBookService";
 import { BookRepository } from "@/infrastructures/BookRepository";
 import { BookCategoryRepository } from "@/infrastructures/BookCategoryRepository";
 import { RegisterBookService } from "@/services/RegisterBookService";
+import { UpdateBookService } from "@/services/UpdateBookService";
 
 /**
  * 演習 6-2 データアクセスとサービスを実装する
@@ -33,5 +35,6 @@ container.bind<ISearchBookService>(TYPES.ISearchBookService).to(SearchBookServic
 container
   .bind<IRegisterBookService>(TYPES.IRegisterBookService)
   .to(RegisterBookService);
+container.bind<IUpdateBookService>(TYPES.IUpdateBookService).to(UpdateBookService);
 
 export { container };

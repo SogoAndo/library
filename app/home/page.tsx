@@ -30,7 +30,7 @@ const menuItems = [
     title: "図書変更",
     description: "登録済みの図書情報を変更・更新します",
     buttonText: "変更画面へ進む",
-    href: "/books",
+    href: "/books/update",
     variant: "outline",
     className: "",
   },

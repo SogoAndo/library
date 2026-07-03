@@ -2,6 +2,7 @@ import { injectable } from "inversify";
 import { IBookRepository } from "@/interfaces/IBookRepository";
 import { Book } from "@/models/Book";
 import { BookRegistration } from "@/models/BookRegistration";
+import { BookUpdate } from "@/models/BookUpdate";
 
 /**
  * 図書リポジトリの実装(モック)
@@ -70,5 +71,26 @@ export class MockBookRepository implements IBookRepository {
 
     this.mockBooks.push(registeredBook);
     return registeredBook;
+  }
+
+  public async update(book: BookUpdate): Promise<Book> {
+    const targetIndex = this.mockBooks.findIndex(
+      (item) => item.bookUuid === book.bookUuid,
+    );
+
+    if (targetIndex === -1) {
+      throw new Error("変更対象の図書が見つかりません。");
+    }
+
+    const updatedBook: Book = {
+      bookUuid: book.bookUuid,
+      title: book.title,
+      author: book.author,
+      category: book.categoryName,
+      stock: book.stock,
+    };
+
+    this.mockBooks[targetIndex] = updatedBook;
+    return updatedBook;
   }
 }

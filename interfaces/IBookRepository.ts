@@ -1,5 +1,6 @@
 import { Book } from "@/models/Book";
 import { BookRegistration } from "@/models/BookRegistration";
+import { BookUpdate } from "@/models/BookUpdate";
 
 /**
  * 図書リポジトリインターフェース
@@ -18,4 +19,11 @@ export interface IBookRepository {
    * @returns 登録された図書
    */
   register(book: BookRegistration): Promise<Book>;
+
+  /**
+   * 図書を変更する
+   * @param book 変更する図書
+   * @returns 変更された図書
+   */
+  update(book: BookUpdate): Promise<Book>;
 }

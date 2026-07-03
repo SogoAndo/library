@@ -3,6 +3,7 @@ import { getResponseErrorMessage } from "@/lib/apiError";
 import { IBookRepository } from "@/interfaces/IBookRepository";
 import { Book } from "@/models/Book";
 import { BookRegistration } from "@/models/BookRegistration";
+import { BookUpdate } from "@/models/BookUpdate";
 
 type BookApiResponse = {
   bookId?: string | null;
@@ -18,6 +19,13 @@ type BookCategoryApiResponse = {
 };
 
 type RegisterBookApiRequest = {
+  title: string;
+  author: string;
+  categoryId: string;
+  stock: number;
+};
+
+type UpdateBookApiRequest = {
   title: string;
   author: string;
   categoryId: string;
@@ -101,6 +109,49 @@ export class BookRepository implements IBookRepository {
     if (!text) {
       return {
         bookUuid: "",
+        title: book.title,
+        author: book.author,
+        category: book.categoryName,
+        stock: book.stock,
+      };
+    }
+
+    return toBook(JSON.parse(text), 0);
+  }
+
+  public async update(book: BookUpdate): Promise<Book> {
+    const requestBody: UpdateBookApiRequest = {
+      title: book.title,
+      author: book.author,
+      categoryId: book.categoryId,
+      stock: book.stock,
+    };
+
+    const response = await fetch(
+      `/library/api/books/${encodeURIComponent(book.bookUuid)}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        await getResponseErrorMessage(
+          response,
+          `図書変更に失敗しました (Status: ${response.status})`,
+        ),
+      );
+    }
+
+    const text = await response.text();
+
+    if (!text) {
+      return {
+        bookUuid: book.bookUuid,
         title: book.title,
         author: book.author,
         category: book.categoryName,

@@ -9,4 +9,5 @@ export const TYPES = {
     // 図書検索: サービス(ユースケース)層
     ISearchBookService: Symbol.for("ISearchBookService"),
     IRegisterBookService: Symbol.for("IRegisterBookService"),
+    IUpdateBookService: Symbol.for("IUpdateBookService"),
 };
