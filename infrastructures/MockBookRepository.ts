@@ -1,6 +1,7 @@
 import { injectable } from "inversify";
 import { IBookRepository } from "@/interfaces/IBookRepository";
 import { Book } from "@/models/Book";
+import { BookDeletion } from "@/models/BookDeletion";
 import { BookRegistration } from "@/models/BookRegistration";
 import { BookUpdate } from "@/models/BookUpdate";
 
@@ -92,5 +93,17 @@ export class MockBookRepository implements IBookRepository {
 
     this.mockBooks[targetIndex] = updatedBook;
     return updatedBook;
+  }
+
+  public async delete(book: BookDeletion): Promise<void> {
+    const targetIndex = this.mockBooks.findIndex(
+      (item) => item.bookUuid === book.bookUuid,
+    );
+
+    if (targetIndex === -1) {
+      throw new Error("削除対象の図書が見つかりません。");
+    }
+
+    this.mockBooks.splice(targetIndex, 1);
   }
 }

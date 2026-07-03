@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import { IBookRepository } from "@/interfaces/IBookRepository";
 import { IBookCategoryRepository } from "@/interfaces/IBookCategoryRepository";
+import { IDeleteBookService } from "@/interfaces/IDeleteBookService";
 import { IRegisterBookService } from "@/interfaces/IRegisterBookService";
 import { ISearchBookService } from "@/interfaces/ISearchBookService";
 import { IUpdateBookService } from "@/interfaces/IUpdateBookService";
@@ -9,6 +10,7 @@ import { TYPES } from "./types";
 import { SearchBookService } from "@/services/SearchBookService";
 import { BookRepository } from "@/infrastructures/BookRepository";
 import { BookCategoryRepository } from "@/infrastructures/BookCategoryRepository";
+import { DeleteBookService } from "@/services/DeleteBookService";
 import { RegisterBookService } from "@/services/RegisterBookService";
 import { UpdateBookService } from "@/services/UpdateBookService";
 
@@ -36,5 +38,6 @@ container
   .bind<IRegisterBookService>(TYPES.IRegisterBookService)
   .to(RegisterBookService);
 container.bind<IUpdateBookService>(TYPES.IUpdateBookService).to(UpdateBookService);
+container.bind<IDeleteBookService>(TYPES.IDeleteBookService).to(DeleteBookService);
 
 export { container };

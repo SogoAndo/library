@@ -10,4 +10,5 @@ export const TYPES = {
     ISearchBookService: Symbol.for("ISearchBookService"),
     IRegisterBookService: Symbol.for("IRegisterBookService"),
     IUpdateBookService: Symbol.for("IUpdateBookService"),
+    IDeleteBookService: Symbol.for("IDeleteBookService"),
 };

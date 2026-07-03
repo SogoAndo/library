@@ -1,4 +1,5 @@
 import { Book } from "@/models/Book";
+import { BookDeletion } from "@/models/BookDeletion";
 import { BookRegistration } from "@/models/BookRegistration";
 import { BookUpdate } from "@/models/BookUpdate";
 
@@ -26,4 +27,10 @@ export interface IBookRepository {
    * @returns 変更された図書
    */
   update(book: BookUpdate): Promise<Book>;
+
+  /**
+   * 図書を削除する
+   * @param book 削除する図書
+   */
+  delete(book: BookDeletion): Promise<void>;
 }

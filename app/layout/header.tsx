@@ -30,7 +30,7 @@ export default function Header() {
           </Link>
           <Link
             className="rounded-md bg-transparent px-3 py-2 text-sm font-medium text-green-900 hover:bg-green-200"
-            href="/books"
+            href="/books/delete"
           >
             図書削除
           </Link>

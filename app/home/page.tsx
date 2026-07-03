@@ -38,7 +38,7 @@ const menuItems = [
     title: "図書削除",
     description: "登録済みの図書情報を削除します",
     buttonText: "削除画面へ進む",
-    href: "/books",
+    href: "/books/delete",
     variant: "destructive",
     className: "border-red-100",
   },

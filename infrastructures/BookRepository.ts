@@ -2,6 +2,7 @@ import { injectable } from "inversify";
 import { getResponseErrorMessage } from "@/lib/apiError";
 import { IBookRepository } from "@/interfaces/IBookRepository";
 import { Book } from "@/models/Book";
+import { BookDeletion } from "@/models/BookDeletion";
 import { BookRegistration } from "@/models/BookRegistration";
 import { BookUpdate } from "@/models/BookUpdate";
 
@@ -160,5 +161,26 @@ export class BookRepository implements IBookRepository {
     }
 
     return toBook(JSON.parse(text), 0);
+  }
+
+  public async delete(book: BookDeletion): Promise<void> {
+    const response = await fetch(
+      `/library/api/books/${encodeURIComponent(book.bookUuid)}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        await getResponseErrorMessage(
+          response,
+          `図書削除に失敗しました (Status: ${response.status})`,
+        ),
+      );
+    }
   }
 }
